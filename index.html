@@ -23,10 +23,48 @@
     <script src="src/plugins/L.Control.Zoomslider.js"></script>
     <script src="src/plugins/L.Control.Sidebar.js"></script>
     <script src="src/plugins/Leaflet.PolylineMeasure.js"></script>
-    <script src="swedish_counties.js"></script>
-    <script src="countries.js"></script>
-    <script src="sample.js"></script>
-    <script src="sample2.js"></script>
+
+    <style>
+      #mapdiv {
+        height: 100vh;
+      }
+
+      #side-bar {
+        position: absolute;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 10px;
+        right: 0;
+        top: 0;
+        margin: 10px;
+        border-radius: 10px;
+        min-height: 200px;
+      }
+    </style>
   </head>
-  <body></body>
+
+  <body>
+    <div id="mapdiv"></div>
+
+    <script>
+      var mymap;
+      var lyrOSM;
+      var mrkCurrentLocation;
+      var ctlZoomslider;
+      var countrieslayer;
+      var ctlSlidebar;
+      var ctlMpolyline;
+      var RasterL;
+      $(document).ready(function () {
+        mymap = L.map("mapdiv", {
+          center: [60.48868922712431, 15.421371459960938],
+          zoom: 13,
+        });
+        lyrOSM = L.tileLayer(
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        );
+        mymap.addLayer(lyrOSM);
+      });
+    </script>
+  </body>
 </html>
