@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@turf/buffer": "^6.5.0",
     "leaflet-sidebar-v2": "^3.2.3"
   }
 }

@@ -89,7 +89,7 @@ const poi3 = {
 
 const poi4 = {
   coordinates: "60.14980734212499, 15.182584641948754",
-  marker: L.marker([60.14980734212499, 15.182584641948754], {
+  marker: L.marker([60.156461984224556, 15.181793595763933], {
     icon: markerIcon,
   }).addTo(map),
   name: "Ludvika station",
@@ -131,7 +131,7 @@ pointsArray.forEach((point) => {
 
 // polyline measure
 
-options = {
+var options = {
   position: "topleft", // Position to show the control. Values: 'topright', 'topleft', 'bottomright', 'bottomleft'
   unit: "kilometres", // Default unit the distances are displayed in. Values: 'kilometres', 'landmiles', 'nauticalmiles'
   useSubunits: true, // Use subunits (metres/feet) in tooltips if distances are less than 1 kilometre/landmile
@@ -242,15 +242,26 @@ polylineMeasure.addTo(map);
 
 // Some constant polyline coords:
 const line1coords = [
-  { lat: 22.156883186860703, lng: -158.95019531250003 },
-  { lat: 22.01436065310322, lng: -157.33520507812503 },
-  { lat: 21.391704731036587, lng: -156.17065429687503 },
-  { lat: 20.64306554672647, lng: -155.56640625000003 },
-  { lat: 19.342244996771804, lng: -155.33569335937503 },
-];
-const line2coords = [
-  { lat: 19.880391767822505, lng: -159.67529296875003 },
-  { lat: 17.90556881196468, lng: -156.39038085937503 },
+  { lat: 60.14880505873236, lng: 15.18973373339937 },
+  { lat: 60.15146370380727, lng: 15.19057938758252 },
+  { lat: 60.156461984224556, lng: 15.181793595763933 },
+  { lat: 60.14980734212499, lng: 15.182584641948754 },
 ];
 
-polylineMeasure.seed([line1coords, line2coords]);
+polylineMeasure.seed([line1coords]);
+
+/*
+Task 3) Load “supermarket.geoJSON” file to the map. Display names of the supermarkets using
+pop-up. Create a buffer for the locations of supermarkets. The buffer radius should be 1 KM.
+Highlight supermarkets that are not overlapping.
+*/
+// Load the supermarket.geoJSON file to the map
+// Load the supermarket.geoJSON file to the map
+// Load the supermarket.geoJSON file to the map
+var supermarkets = L.geoJson(supermarket, {
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(feature.properties.name);
+  },
+}).addTo(map);
+
+console.log(supermarket.features.length);
