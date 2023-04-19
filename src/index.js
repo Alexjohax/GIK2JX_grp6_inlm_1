@@ -89,7 +89,7 @@ const poi3 = {
 
 const poi4 = {
   coordinates: "60.14980734212499, 15.182584641948754",
-  marker: L.marker([60.156461984224556, 15.181793595763933], {
+  marker: L.marker([60.14983852230926, 15.182727997743822], {
     icon: markerIcon,
   }).addTo(map),
   name: "Ludvika station",
@@ -246,6 +246,8 @@ const line1coords = [
   { lat: 60.15146370380727, lng: 15.19057938758252 },
   { lat: 60.156461984224556, lng: 15.181793595763933 },
   { lat: 60.14980734212499, lng: 15.182584641948754 },
+  { lat: 60.14547583691965, lng: 15.177413757271246 },
+  { lat: 60.14880505873236, lng: 15.18973373339937 },
 ];
 
 polylineMeasure.seed([line1coords]);
@@ -257,11 +259,44 @@ Highlight supermarkets that are not overlapping.
 */
 // Load the supermarket.geoJSON file to the map
 // Load the supermarket.geoJSON file to the map
-// Load the supermarket.geoJSON file to the map
+let buffers = [];
+
 var supermarkets = L.geoJson(supermarket, {
   onEachFeature: function (feature, layer) {
+    var point = turf.point([
+      layer.feature.geometry.coordinates[0],
+      layer.feature.geometry.coordinates[1],
+    ]);
+    var buffered = turf.buffer(point, 1, { units: "kilometers" });
+
+    // Check if the buffer overlaps with any of the previously added buffers
+    var overlap = false;
+    buffers.forEach(function (otherBuffer) {
+      if (turf.booleanOverlap(buffered, otherBuffer)) {
+        overlap = true;
+      }
+    });
+
+    // If no overlap, add the buffer to the array
+    if (!overlap) {
+      buffers.push(buffered);
+    }
+
     layer.bindPopup(feature.properties.name);
   },
 }).addTo(map);
+
+// Create a new leaflet layer using the Turf buffer geometry
+var bufferLayer = L.geoJson(buffers, {
+  style: {
+    color: "#3388ff",
+    weight: 2,
+    opacity: 0.5,
+    fillOpacity: 0.1,
+  },
+});
+
+// Add the buffer layer to the map
+bufferLayer.addTo(map);
 
 console.log(supermarket.features.length);
