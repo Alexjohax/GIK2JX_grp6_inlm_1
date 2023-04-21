@@ -300,3 +300,7 @@ var bufferLayer = L.geoJson(buffers, {
 bufferLayer.addTo(map);
 
 console.log(supermarket.features.length);
+
+
+RasterL = L.imageOverlay('img/Ikea.png', [[60.482731, 15.419809],[60.480601, 15.422171]]).addTo(mymap);
+          RasterL.bringToFront();
