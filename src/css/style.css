@@ -2,3 +2,19 @@
   width: auto;
   height: 100vh;
 }
+
+.toggle-layer-button {
+  background-color: #b2d8b2;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-layer-button:hover {
+  background-color: #9ac89a;
+}
+

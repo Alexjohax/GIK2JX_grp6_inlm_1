@@ -301,6 +301,26 @@ bufferLayer.addTo(map);
 
 console.log(supermarket.features.length);
 
+/* RasterL = L.imageOverlay("img/Ikea.png", [
+  [60.482731, 15.419809],
+  [60.480601, 15.422171],
+]).addTo(map);
+RasterL.bringToFront(); */
 
-RasterL = L.imageOverlay('img/Ikea.png', [[60.482731, 15.419809],[60.480601, 15.422171]]).addTo(mymap);
-          RasterL.bringToFront();
+//Hagge-gk raster layer
+const haggeOverlay = L.imageOverlay("src/images/hagge-gk.png", [
+  [60.116373691160035, 15.241719516397076],
+  [60.10748627946077, 15.260914498921888],
+]).addTo(map);
+haggeOverlay.bringToFront();
+
+// Toggle functionality for overlaybuttons
+const toggleHaggeGkButton = document.getElementById("toggle-hagge");
+toggleHaggeGkButton.addEventListener("click", function () {
+  if (map.hasLayer(haggeOverlay)) {
+    map.removeLayer(haggeOverlay);
+  } else {
+    haggeOverlay.addTo(map);
+    haggeOverlay.bringToFront();
+  }
+});
