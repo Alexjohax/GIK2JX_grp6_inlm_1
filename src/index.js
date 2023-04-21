@@ -1,11 +1,10 @@
 // Initialize the map
 var map = L.map("map", {
-  scrollWheelZoom: false,
+  scrollWheelZoom: true,
 });
 
 // Set the position and zoom level of the map
 map.setView([60.1485524676421, 15.18658550868326], 14);
-map.scrollWheelZoom.enable();
 
 // Initialize the base layer
 var osm_mapnik = L.tileLayer(
@@ -48,6 +47,8 @@ var polygonCoords = [
   [60.149889125201, 15.190367266136384],
   [60.150704734478936, 15.191338329538059],
 ];
+
+/* Task 2) Choose a city and show 5 locations of interest (example: retail stores, museum, school, etc.) using points. Display information like name, location and other information using sidebar for each location. Use “polylineMeasure.seed” to display distances between these locations (i.e., from PolylinMeasure Plugin). */
 
 const markerIcon = L.icon({
   iconUrl: "/src/images/marker-icon2.webp",
@@ -104,8 +105,6 @@ const poi5 = {
   name: "Hitachi energy",
   info: "Hitachi Energy är ett internationellt energiteknikföretag med huvudkontor i Tokyo, Japan. Företaget har verksamhet inom områden som kraftverk, vindkraft, solenergi och energilagring. Hitachi Energy har en betydande närvaro i Sverige och är bland annat involverade i utvecklingen av nästa generationens kärnkraftverk.",
 };
-
-/* Task 2) Choose a city and show 5 locations of interest (example: retail stores, museum, school, etc.) using points. Display information like name, location and other information using sidebar for each location. Use “polylineMeasure.seed” to display distances between these locations (i.e., from PolylinMeasure Plugin). */
 
 let header = document.querySelector("#sidebar-content-header");
 let info = document.querySelector("#sidebar-content-info");
@@ -255,8 +254,7 @@ Task 3) Load “supermarket.geoJSON” file to the map. Display names of the sup
 pop-up. Create a buffer for the locations of supermarkets. The buffer radius should be 1 KM.
 Highlight supermarkets that are not overlapping.
 */
-// Load the supermarket.geoJSON file to the map
-// Load the supermarket.geoJSON file to the map
+
 let buffers = [];
 
 var supermarkets = L.geoJson(supermarket, {
