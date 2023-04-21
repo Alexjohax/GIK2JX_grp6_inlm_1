@@ -324,3 +324,9 @@ toggleHaggeGkButton.addEventListener("click", function () {
     haggeOverlay.bringToFront();
   }
 });
+
+// Zoom to overlay functinality
+const zoomToHaggeButton = document.getElementById("zoom-hagge");
+zoomToHaggeButton.addEventListener("click", () => {
+  map.fitBounds(haggeOverlay.getBounds());
+});
