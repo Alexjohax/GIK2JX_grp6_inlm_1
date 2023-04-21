@@ -29,7 +29,7 @@ L.marker([60.1485524676421, 15.18658550868326])
     "<h3>Systembolaget</h3><img src='src/images/systemet.png' width='150px'>"
   );
 
-// Adds a line to the map from Systembolaget to alkisparken
+// Adds a line to the map from Systembolaget to park
 var latlngs = [
   [60.148620021486515, 15.186545266370326],
   [60.14880862226982, 15.186751817181134],
@@ -41,7 +41,7 @@ var polyline = L.polyline(latlngs, { color: "red" })
     "<h3>Vägen till parken</h3><img src='src/images/road.png' width='150px'>"
   );
 
-// Adds polygon of the alkispark to the map
+// Adds polygon of the park to the map
 var polygonCoords = [
   [60.15106722099717, 15.189851388704241],
   [60.15036489973853, 15.188933430332344],
