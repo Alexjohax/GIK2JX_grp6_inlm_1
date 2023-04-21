@@ -220,8 +220,6 @@ var options = {
   },
 };
 
-/* L.control.polylineMeasure(options).addTo(map); */
-
 L.control
   .scale({
     maxWidth: 240,
@@ -240,7 +238,7 @@ let polylineMeasure = L.control.polylineMeasure({
 });
 polylineMeasure.addTo(map);
 
-// Some constant polyline coords:
+// the linecoordinates for the points in Ludvika
 const line1coords = [
   { lat: 60.14880505873236, lng: 15.18973373339937 },
   { lat: 60.15146370380727, lng: 15.19057938758252 },
@@ -299,13 +297,7 @@ var bufferLayer = L.geoJson(buffers, {
 // Add the buffer layer to the map
 bufferLayer.addTo(map);
 
-console.log(supermarket.features.length);
-
-/* RasterL = L.imageOverlay("img/Ikea.png", [
-  [60.482731, 15.419809],
-  [60.480601, 15.422171],
-]).addTo(map);
-RasterL.bringToFront(); */
+/* Task 4) Use an image to overlay on the basemap. Choose any location in Sweden. */
 
 //Hagge-gk raster layer
 const haggeOverlay = L.imageOverlay("src/images/hagge-gk.png", [
