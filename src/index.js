@@ -3,133 +3,6 @@ var map = L.map("map", {
   scrollWheelZoom: true,
 });
 
-// Set the position and zoom level of the map
-map.setView([60.1485524676421, 15.18658550868326], 14);
-
-// Initialize the base layer
-var osm_mapnik = L.tileLayer(
-  "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  {
-    maxZoom: 19,
-    attribution:
-      '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }
-).addTo(map);
-
-var sidebar = L.control.sidebar({ container: "sidebar" }).addTo(map);
-
-/* Task 1) Create point, line, and polygon features in any area using Leaflet (i.e., without using geojson). Display information of these features using pop-up along with an image. (Check Leaflet documentation for help)
- */
-
-// Adds marker to map at Systembolaget Ludvika
-L.marker([60.1485524676421, 15.18658550868326])
-  .addTo(map)
-  .bindPopup(
-    "<h3>Systembolaget</h3><img src='src/images/systemet.png' width='150px'>"
-  );
-
-// Adds a line to the map from Systembolaget to park
-var latlngs = [
-  [60.148620021486515, 15.186545266370326],
-  [60.14880862226982, 15.186751817181134],
-  [60.1506333983414, 15.189167319357818],
-];
-var polyline = L.polyline(latlngs, { color: "red" })
-  .addTo(map)
-  .bindPopup(
-    "<h3>Vägen till parken</h3><img src='src/images/road.png' width='150px'>"
-  );
-
-// Adds polygon of the park to the map
-var polygonCoords = [
-  [60.15106722099717, 15.189851388704241],
-  [60.15036489973853, 15.188933430332344],
-  [60.149889125201, 15.190367266136384],
-  [60.150704734478936, 15.191338329538059],
-];
-
-/* Task 2) Choose a city and show 5 locations of interest (example: retail stores, museum, school, etc.) using points. Display information like name, location and other information using sidebar for each location. Use “polylineMeasure.seed” to display distances between these locations (i.e., from PolylinMeasure Plugin). */
-
-const markerIcon = L.icon({
-  iconUrl: "/src/images/marker-icon2.webp",
-  iconSize: [30, 40],
-  iconAnchor: [15, 30],
-  popupAnchor: [0, -30],
-});
-
-var polygon = L.polygon(polygonCoords, { color: "red" })
-  .addTo(map)
-  .bindPopup("<h3>Parken</h3><img src='src/images/park.png' width='150px'>");
-
-const poi1 = {
-  coordinates: "60.14880505873236, 15.18973373339937",
-  marker: L.marker([60.14880505873236, 15.18973373339937], {
-    icon: markerIcon,
-  }).addTo(map),
-  name: "Folkets hus",
-  info: "Folkets hus har väldigt mycket roliga evenemang. Kom o se på alkis-arne svepa 2 absolut vodka på 30 sekunder",
-};
-
-const poi2 = {
-  coordinates: "60.15146370380727, 15.19057938758252",
-  marker: L.marker([60.15146370380727, 15.19057938758252], {
-    icon: markerIcon,
-  }).addTo(map),
-  name: "Donken",
-  info: "Ludvikas mest exklusiva restaurang. Här kan du till exempel äta Cheeseburgare eller Dubbel Cheeseburgare. \n\nMcDonalds i Ludvika byggdes i slutet utav 1990-talet",
-};
-
-const poi3 = {
-  coordinates: "60.156461984224556, 15.181793595763933",
-  marker: L.marker([60.156461984224556, 15.181793595763933], {
-    icon: markerIcon,
-  }).addTo(map),
-  name: "Skuthamn badplats",
-  info: "Skuthamn badplats är belägen vid sjön Väsman i Ludvika kommun, Dalarnas län, Sverige. Badplatsen är omgiven av skog och erbjuder fina sandstränder, bryggor och en liten lekplats för barnen. Det finns också möjligheter att fiska och paddla kajak vid badplatsen. Skuthamn camping ligger intill badplatsen och erbjuder stugor och husvagnsplatser för övernattning.",
-};
-
-const poi4 = {
-  coordinates: "60.14980734212499, 15.182584641948754",
-  marker: L.marker([60.14983852230926, 15.182727997743822], {
-    icon: markerIcon,
-  }).addTo(map),
-  name: "Ludvika station",
-  info: "Ludvika Station är en järnvägsstation belägen i Ludvika kommun i Dalarnas län. Stationen trafikeras av tåg som går mellan Dalarna och Stockholm, samt tåg som går till gruvorna i Aitik och Gällivare i norra Sverige. Ludvika Station är en viktig transportknutpunkt i regionen och har även ett resecentrum med buss- och taxiförbindelser.",
-};
-
-const poi5 = {
-  coordinates: "60.14547583691965, 15.177413757271246",
-  marker: L.marker([60.14547583691965, 15.177413757271246], {
-    icon: markerIcon,
-  }).addTo(map),
-  name: "Hitachi energy",
-  info: "Hitachi Energy är ett internationellt energiteknikföretag med huvudkontor i Tokyo, Japan. Företaget har verksamhet inom områden som kraftverk, vindkraft, solenergi och energilagring. Hitachi Energy har en betydande närvaro i Sverige och är bland annat involverade i utvecklingen av nästa generationens kärnkraftverk.",
-};
-
-let header = document.querySelector("#sidebar-content-header");
-let info = document.querySelector("#sidebar-content-info");
-let coordinfo = document.querySelector("#sidebar-content-coord");
-let closebtn = document.querySelector(".active");
-
-closebtn.addEventListener("click", () => {
-  header.innerHTML = "";
-  info.innerHTML = "";
-  coordinfo.innerHTML = "";
-});
-
-const pointsArray = [poi1, poi2, poi3, poi4, poi5];
-
-pointsArray.forEach((point) => {
-  point.marker.on("click", () => {
-    sidebar.open("home");
-    header.innerHTML = point.name;
-    info.innerHTML = `<h4>Läs mer om ${point.name}</h4> \n  ${point.info}`;
-    coordinfo.innerHTML = `<h4>Koordinater</h4> \n  ${point.coordinates}`;
-  });
-});
-
-// polyline measure
-
 var options = {
   position: "topleft", // Position to show the control. Values: 'topright', 'topleft', 'bottomright', 'bottomleft'
   unit: "kilometres", // Default unit the distances are displayed in. Values: 'kilometres', 'landmiles', 'nauticalmiles'
@@ -227,6 +100,81 @@ L.control
     position: "bottomleft",
   })
   .addTo(map);
+
+let header = document.querySelector("#sidebar-content-header");
+let info = document.querySelector("#sidebar-content-info");
+let coordinfo = document.querySelector("#sidebar-content-coord");
+let closebtn = document.querySelector(".active");
+
+closebtn.addEventListener("click", () => {
+  header.innerHTML = "";
+  info.innerHTML = "";
+  coordinfo.innerHTML = "";
+});
+
+// Set the position and zoom level of the map
+map.setView([60.1485524676421, 15.18658550868326], 14);
+
+// Initialize the base layer
+var osm_mapnik = L.tileLayer(
+  "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    maxZoom: 19,
+    attribution:
+      '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }
+).addTo(map);
+
+var sidebar = L.control.sidebar({ container: "sidebar" }).addTo(map);
+
+/* Task 1) Create point, line, and polygon features in any area using Leaflet (i.e., without using geojson). Display information of these features using pop-up along with an image. (Check Leaflet documentation for help)
+ */
+var task1Layer = L.featureGroup();
+document.getElementById("task1").addEventListener("click", function () {
+  if (map.hasLayer(task1Layer)) {
+    map.removeLayer(task1Layer);
+  } else {
+    var marker = L.marker([60.1485524676421, 15.18658550868326]).bindPopup(
+      "<h3>Systembolaget</h3><img src='src/images/systemet.png' width='150px'>"
+    );
+
+    var latlngs = [
+      [60.148620021486515, 15.186545266370326],
+      [60.14880862226982, 15.186751817181134],
+      [60.1506333983414, 15.189167319357818],
+    ];
+    var polyline = L.polyline(latlngs, { color: "red" }).bindPopup(
+      "<h3>Vägen till parken</h3><img src='src/images/road.png' width='150px'>"
+    );
+
+    var polygonCoords = [
+      [60.15106722099717, 15.189851388704241],
+      [60.15036489973853, 15.188933430332344],
+      [60.149889125201, 15.190367266136384],
+      [60.150704734478936, 15.191338329538059],
+    ];
+    var polygon = L.polygon(polygonCoords, { color: "red" }).bindPopup(
+      "<h3>Parken</h3><img src='src/images/park.png' width='150px'>"
+    );
+
+    task1Layer.addLayer(marker);
+    task1Layer.addLayer(polyline);
+    task1Layer.addLayer(polygon);
+
+    map.addLayer(task1Layer);
+    map.fitBounds(task1Layer.getBounds());
+  }
+});
+
+/* Task 2) Choose a city and show 5 locations of interest (example: retail stores, museum, school, etc.) using points. Display information like name, location and other information using sidebar for each location. Use “polylineMeasure.seed” to display distances between these locations (i.e., from PolylinMeasure Plugin). */
+
+const markerIcon = L.icon({
+  iconUrl: "/src/images/marker-icon2.webp",
+  iconSize: [30, 40],
+  iconAnchor: [15, 30],
+  popupAnchor: [0, -30],
+});
+
 let polylineMeasure = L.control.polylineMeasure({
   position: "topleft",
   unit: "kilometres",
@@ -237,8 +185,7 @@ let polylineMeasure = L.control.polylineMeasure({
 });
 polylineMeasure.addTo(map);
 
-// the linecoordinates for the points in Ludvika
-const line1coords = [
+var line1coords = [
   { lat: 60.14880505873236, lng: 15.18973373339937 },
   { lat: 60.15146370380727, lng: 15.19057938758252 },
   { lat: 60.156461984224556, lng: 15.181793595763933 },
@@ -247,7 +194,81 @@ const line1coords = [
   { lat: 60.14880505873236, lng: 15.18973373339937 },
 ];
 
-polylineMeasure.seed([line1coords]);
+var task2MarkerLayer = L.featureGroup();
+
+var polylayer;
+document.getElementById("task2").addEventListener("click", function () {
+  if (map.hasLayer(task2MarkerLayer)) {
+    map.removeLayer(task2MarkerLayer);
+    line1coords = [
+      { lat: 60.14880505873233, lng: 15.18973373339237 },
+      { lat: 60.15146370380727, lng: 15.19057938758252 },
+    ];
+  } else {
+    polylayer = polylineMeasure.seed([line1coords]);
+
+    var poi1Marker = L.marker([60.14880505873236, 15.18973373339937], {
+      icon: markerIcon,
+    }).addTo(task2MarkerLayer);
+    var poi2Marker = L.marker([60.15146370380727, 15.19057938758252], {
+      icon: markerIcon,
+    }).addTo(task2MarkerLayer);
+    var poi3Marker = L.marker([60.156461984224556, 15.181793595763933], {
+      icon: markerIcon,
+    }).addTo(task2MarkerLayer);
+    var poi4Marker = L.marker([60.14983852230926, 15.182727997743822], {
+      icon: markerIcon,
+    }).addTo(task2MarkerLayer);
+    var poi5Marker = L.marker([60.14547583691965, 15.177413757271246], {
+      icon: markerIcon,
+    }).addTo(task2MarkerLayer);
+
+    const pointsArray = [
+      {
+        name: "Folkets hus",
+        info: "Folkets hus har väldigt mycket roliga evenemang. ",
+        coordinates: "60.14880505873236, 15.18973373339937",
+        marker: poi1Marker,
+      },
+      {
+        name: "Donken",
+        info: "Ludvikas mest exklusiva restaurang. Här kan du till exempel äta Cheeseburgare eller Dubbel Cheeseburgare. \n\nMcDonalds i Ludvika byggdes i slutet utav 1990-talet",
+        coordinates: "60.15146370380727, 15.19057938758252",
+        marker: poi2Marker,
+      },
+      {
+        name: "Skuthamn badplats",
+        info: "Folkets hus har väldigt mycket roliga evenemang. Kom o se på alkis-arne svepa 2 absolut vodka på 30 sekunder",
+        coordinates: "60.156461984224556, 15.181793595763933",
+        marker: poi3Marker,
+      },
+      {
+        name: "Ludvika station",
+        info: "Ludvika Station är en järnvägsstation belägen i Ludvika kommun i Dalarnas län. Stationen trafikeras av tåg som går mellan Dalarna och Stockholm, samt tåg som går till gruvorna i Aitik och Gällivare i norra Sverige. Ludvika Station är en viktig transportknutpunkt i regionen och har även ett resecentrum med buss- och taxiförbindelser.",
+        coordinates: "60.14983852230926, 15.182727997743822",
+        marker: poi4Marker,
+      },
+      {
+        name: "Hitachi energy",
+        info: "Hitachi Energy är ett internationellt energiteknikföretag med huvudkontor i Tokyo, Japan. Företaget har verksamhet inom områden som kraftverk, vindkraft, solenergi och energilagring. Hitachi Energy har nyligen etablerat sig i ludvika då dom har köpt upp ABB",
+        coordinates: "60.14547583691965, 15.177413757271246",
+        marker: poi5Marker,
+      },
+    ];
+
+    pointsArray.forEach((point) => {
+      point.marker.on("click", () => {
+        sidebar.open("home");
+        header.innerHTML = point.name;
+        info.innerHTML = `<h4>Läs mer om ${point.name}</h4> \n  ${point.info}`;
+        coordinfo.innerHTML = `<h4>Koordinater</h4> \n  ${point.coordinates}`;
+      });
+    });
+
+    map.addLayer(task2MarkerLayer);
+    map.fitBounds(task2MarkerLayer.getBounds());
+  }
+});
 
 /*
 Task 3) Load “supermarket.geoJSON” file to the map. Display names of the supermarkets using
@@ -255,68 +276,67 @@ pop-up. Create a buffer for the locations of supermarkets. The buffer radius sho
 Highlight supermarkets that are not overlapping.
 */
 
-let buffers = [];
+var task3Layer = L.featureGroup();
 
-var supermarkets = L.geoJson(supermarket, {
-  onEachFeature: function (feature, layer) {
-    var point = turf.point([
-      layer.feature.geometry.coordinates[0],
-      layer.feature.geometry.coordinates[1],
-    ]);
-    var buffered = turf.buffer(point, 1, { units: "kilometers" });
+document.getElementById("task3").addEventListener("click", function () {
+  if (map.hasLayer(task3Layer)) {
+    map.removeLayer(task3Layer);
+  } else {
+    let buffers = [];
 
-    // Check if the buffer overlaps with any of the previously added buffers
-    var overlap = false;
-    buffers.forEach(function (otherBuffer) {
-      if (turf.booleanOverlap(buffered, otherBuffer)) {
-        overlap = true;
-      }
+    var supermarkets = L.geoJson(supermarket, {
+      onEachFeature: function (feature, layer) {
+        var point = turf.point([
+          layer.feature.geometry.coordinates[0],
+          layer.feature.geometry.coordinates[1],
+        ]);
+        var buffered = turf.buffer(point, 1, { units: "kilometers" });
+
+        var overlap = false;
+        buffers.forEach(function (otherBuffer) {
+          if (turf.booleanOverlap(buffered, otherBuffer)) {
+            overlap = true;
+          }
+        });
+
+        if (!overlap) {
+          buffers.push(buffered);
+        }
+
+        layer.bindPopup(feature.properties.name);
+      },
+    }).addTo(task3Layer);
+
+    var bufferLayer = L.geoJson(buffers, {
+      style: {
+        color: "#3388ff",
+        weight: 2,
+        opacity: 0.5,
+        fillOpacity: 0.1,
+      },
     });
 
-    // If no overlap, add the buffer to the array
-    if (!overlap) {
-      buffers.push(buffered);
-    }
+    bufferLayer.addTo(task3Layer);
 
-    layer.bindPopup(feature.properties.name);
-  },
-}).addTo(map);
-
-// Create a new leaflet layer using the Turf buffer geometry
-var bufferLayer = L.geoJson(buffers, {
-  style: {
-    color: "#3388ff",
-    weight: 2,
-    opacity: 0.5,
-    fillOpacity: 0.1,
-  },
-});
-
-// Add the buffer layer to the map
-bufferLayer.addTo(map);
-
-/* Task 4) Use an image to overlay on the basemap. Choose any location in Sweden. */
-
-//Hagge-gk raster layer
-const haggeOverlay = L.imageOverlay("src/images/hagge-gk.png", [
-  [60.116373691160035, 15.241719516397076],
-  [60.10748627946077, 15.260914498921888],
-]).addTo(map);
-haggeOverlay.bringToFront();
-
-// Toggle functionality for overlaybuttons
-const toggleHaggeGkButton = document.getElementById("toggle-hagge");
-toggleHaggeGkButton.addEventListener("click", function () {
-  if (map.hasLayer(haggeOverlay)) {
-    map.removeLayer(haggeOverlay);
-  } else {
-    haggeOverlay.addTo(map);
-    haggeOverlay.bringToFront();
+    map.addLayer(task3Layer);
+    map.fitBounds(task3Layer.getBounds());
   }
 });
 
-// Zoom to overlay functinality
-const zoomToHaggeButton = document.getElementById("zoom-hagge");
-zoomToHaggeButton.addEventListener("click", () => {
-  map.fitBounds(haggeOverlay.getBounds());
+/* Task 4) Use an image to overlay on the basemap. Choose any location in Sweden. */
+var task4Layer = L.featureGroup();
+
+document.getElementById("task4").addEventListener("click", function () {
+  if (map.hasLayer(task4Layer)) {
+    map.removeLayer(task4Layer);
+  } else {
+    const haggeOverlay = L.imageOverlay("src/images/hagge-gk.png", [
+      [60.116373691160035, 15.241719516397076],
+      [60.10748627946077, 15.260914498921888],
+    ]).addTo(task4Layer);
+    haggeOverlay.bringToFront();
+
+    map.addLayer(task4Layer);
+    map.fitBounds(task4Layer.getBounds());
+  }
 });
