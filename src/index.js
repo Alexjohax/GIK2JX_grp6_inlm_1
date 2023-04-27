@@ -277,6 +277,30 @@ Highlight supermarkets that are not overlapping.
 */
 
 var task3Layer = L.featureGroup();
+let allBuffers = [];
+L.geoJSON(supermarket, {
+  onEachFeature: function (feature, layer) {
+    var point = turf.point([
+      layer.feature.geometry.coordinates[0],
+      layer.feature.geometry.coordinates[1],
+    ]);
+    var buffered = turf.buffer(point, 1, { units: "kilometers" });
+
+    allBuffers.push(buffered);
+
+    layer.bindPopup(feature.properties.name);
+  },
+});
+
+let allBuffersLayer = L.geoJson(allBuffers, {
+  style: {
+    color: "red",
+    weight: 1,
+    opacity: 0.4,
+    fillOpacity: 0.1,
+  },
+});
+allBuffersLayer.addTo(task3Layer);
 
 document.getElementById("task3").addEventListener("click", function () {
   if (map.hasLayer(task3Layer)) {
@@ -284,7 +308,7 @@ document.getElementById("task3").addEventListener("click", function () {
   } else {
     let buffers = [];
 
-    var supermarkets = L.geoJson(supermarket, {
+    L.geoJson(supermarket, {
       onEachFeature: function (feature, layer) {
         var point = turf.point([
           layer.feature.geometry.coordinates[0],
@@ -293,7 +317,7 @@ document.getElementById("task3").addEventListener("click", function () {
         var buffered = turf.buffer(point, 1, { units: "kilometers" });
 
         var overlap = false;
-        buffers.forEach(function (otherBuffer) {
+        allBuffers.forEach(function (otherBuffer) {
           if (turf.booleanOverlap(buffered, otherBuffer)) {
             overlap = true;
           }
