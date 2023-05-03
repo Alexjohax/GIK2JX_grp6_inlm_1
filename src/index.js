@@ -238,7 +238,7 @@ document.getElementById("task2").addEventListener("click", function () {
       },
       {
         name: "Skuthamn badplats",
-        info: "Folkets hus har väldigt mycket roliga evenemang. Kom o se på alkis-arne svepa 2 absolut vodka på 30 sekunder",
+        info: "Skuthamn badplats är en familjevänlig badplats där du kan bada, sola och grilla. Det finns även en lekplats för barnen.",
         coordinates: "60.156461984224556, 15.181793595763933",
         marker: poi3Marker,
       },
